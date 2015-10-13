@@ -1,7 +1,10 @@
 package com.michaelmostachetti.camera_tester;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -31,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         System.out.println("About to play that track");
-        playThatTrack();
+        isExternalStorageReadable();
+        //playThatTrack();
     }
 
     @Override
@@ -56,13 +60,44 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     public static Context getAppContext(){
         return MainActivity.context;
     }
 
-    public static void playThatTrack(){
+    // Plays a track from the res/raw file
+    public void playThatTrack(){
         Context rightNow = getAppContext();
-        MediaPlayer mediaPlayer = MediaPlayer.create(rightNow, R.raw.song);
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.song);
         mediaPlayer.start();
-    };
+    }
+
+    // trying to access file from system to play
+    public void playThatTrackFromUri(){
+        //Uri myUri; //
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        //mediaPlayer.setDataSource(getApplicationContext(), myUri);
+        //mediaPlayer.prepare();
+        //®®mediaPlayer.start();
+    }
+
+    public boolean isExternalStorageWritable(){
+        String state = Environment.getExternalStorageState();
+        System.out.println(state);
+        if(Environment.MEDIA_MOUNTED.equals(state)){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isExternalStorageReadable(){
+        String state = Environment.getExternalStorageState();
+        System.out.println(state);
+        if(Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)){
+            return true;
+        }
+        return false;
+    }
 }
