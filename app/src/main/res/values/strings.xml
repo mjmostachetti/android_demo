@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Camera_Tester</string>
+    <string name="action_settings">Settings</string>
+    <string name="camera_desc">This is not really dangerous. Just testing out "dangerous" permissions.</string>
+</resources>
