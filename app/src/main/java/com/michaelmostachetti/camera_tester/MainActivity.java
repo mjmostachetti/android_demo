@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.media.MediaPlayer;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
 
     private static Context context;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         });
         System.out.println("About to play that track");
         isExternalStorageReadable();
+        System.out.println("^^ Status of the storage.");
+        listOutExternalStorageFiles();
         //playThatTrack();
     }
 
@@ -99,5 +103,32 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    // List out all the files in your external storage
+    public void listOutExternalStorageFiles(){
+        File sdCard = Environment.getExternalStorageDirectory();
+        File dirs = new File(sdCard.getAbsolutePath());
+
+        if(dirs.exists()){
+            File[] fdirs = dirs.listFiles();
+            for(File dir : fdirs){
+                System.out.println(dir);
+                // now get each sub directory
+                File subdirs = new File(dir.getAbsolutePath());
+                if(subdirs.exists()) {
+                    File[] subDirs = subdirs.listFiles();
+                    for(File subFile : subDirs){
+                        System.out.println(subFile);
+                    }
+                }
+            }
+
+        }
+
+        Long freeStorageSpace = sdCard.getFreeSpace();
+        Long totalStorageSpace = sdCard.getTotalSpace();
+        System.out.println("Here is how much free space I have on my external storage " + freeStorageSpace);
+        System.out.println("Here is how much total space I have on my external storage " + totalStorageSpace);
     }
 }
